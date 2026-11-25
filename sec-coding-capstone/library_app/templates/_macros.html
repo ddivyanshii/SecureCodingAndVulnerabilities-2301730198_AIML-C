@@ -1,0 +1,16 @@
+{% macro csrf_field() -%}
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+{%- endmacro %}
+
+{% macro field(name, label, value='', type='text', errors={}, hint='', attrs='') -%}
+  <label class="field {% if errors.get(name) %}has-error{% endif %}">
+    <span>{{ label }}</span>
+    <input type="{{ type }}" name="{{ name }}" {% if type != 'password' %}value="{{ value }}"{% endif %} {{ attrs }}>
+    {% if hint %}<small class="hint">{{ hint }}</small>{% endif %}
+    {% if errors.get(name) %}<small class="error">{{ errors[name] }}</small>{% endif %}
+  </label>
+{%- endmacro %}
+
+{% macro form_error(errors) -%}
+  {% if errors.get('form') %}<div class="flash flash-error">{{ errors['form'] }}</div>{% endif %}
+{%- endmacro %}

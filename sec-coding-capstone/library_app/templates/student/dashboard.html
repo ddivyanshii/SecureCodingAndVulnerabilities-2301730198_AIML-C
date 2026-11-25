@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ g.user.full_name }}</h1>
+<p class="muted">Roll number: <code>{{ g.user.roll_number }}</code></p>
+
+<div class="grid">
+  <section class="card">
+    <h2>Currently issued ({{ active|length }})</h2>
+    {% if active %}
+      <ul class="plain">
+      {% for loan in active %}
+        <li><strong>{{ loan.title }}</strong> <code>{{ loan.book_code }}</code><br>
+            <small class="muted">Due {{ loan.due_at[:10] }}</small></li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">You have no books issued.</p>
+    {% endif %}
+    <a class="btn" href="{{ url_for('student.my_books') }}">View full history</a>
+  </section>
+  <section class="card">
+    <h2>Find a book</h2>
+    <form method="get" action="{{ url_for('student.search') }}">
+      <input type="search" name="q" maxlength="50" placeholder="e.g. Python">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

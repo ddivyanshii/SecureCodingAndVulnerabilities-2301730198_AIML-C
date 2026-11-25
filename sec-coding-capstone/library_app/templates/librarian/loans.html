@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field %}
+{% block title %}Active loans{% endblock %}
+{% block content %}
+<h1>Active loans</h1>
+<p><a class="btn btn-primary" href="{{ url_for('librarian.issue_book') }}">Issue a book</a></p>
+{% if loans %}
+<table>
+  <thead><tr><th>Book ID</th><th>Title</th><th>Student</th><th>Roll no.</th><th>Issued</th><th>Due</th><th></th></tr></thead>
+  <tbody>
+  {% for l in loans %}
+    <tr>
+      <td><code>{{ l.book_code }}</code></td><td>{{ l.title }}</td><td>{{ l.full_name }}</td>
+      <td><code>{{ l.roll_number }}</code></td><td>{{ l.issued_at[:10] }}</td><td>{{ l.due_at[:10] }}</td>
+      <td>
+        <form method="post" action="{{ url_for('librarian.return_book') }}">
+          {{ csrf_field() }}
+          <input type="hidden" name="loan_id" value="{{ l.id }}">
+          <button class="btn btn-small" type="submit">Mark returned</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="muted">No books are currently on loan.</p>
+{% endif %}
+{% endblock %}

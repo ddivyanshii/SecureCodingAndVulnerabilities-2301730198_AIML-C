@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field, field, form_error %}
+{% block title %}Add book{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Add a book</h1>
+  {{ form_error(errors) }}
+  <form method="post" action="{{ url_for('librarian.add_book') }}" novalidate>
+    {{ csrf_field() }}
+    {{ field('book_code', 'Book ID', form.book_code, errors=errors, hint='2-4 letters + 3-4 digits, e.g. CS101', attrs='maxlength=8') }}
+    {{ field('title', 'Book name', form.title, errors=errors, attrs='maxlength=120') }}
+    {{ field('author', 'Author', form.author, errors=errors, attrs='maxlength=80') }}
+    <label class="field {% if errors.get('category') %}has-error{% endif %}">
+      <span>Category</span>
+      <select name="category">
+        <option value="">- choose -</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if form.category == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.get('category') %}<small class="error">{{ errors['category'] }}</small>{% endif %}
+    </label>
+    {{ field('quantity', 'Quantity', form.quantity, errors=errors, hint='Whole number 1-1000', attrs='inputmode=numeric maxlength=4') }}
+    <button type="submit" class="btn btn-primary">Add book</button>
+  </form>
+</section>
+{% endblock %}

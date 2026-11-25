@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="card narrow center">
+  <h1>{{ code }} - {{ title }}</h1>
+  <p>{{ message }}</p>
+  {% if incident %}
+    <p class="muted">Reference: <code>{{ incident }}</code> - quote this if you contact support.</p>
+  {% endif %}
+  <p><a class="btn" href="{{ url_for('auth.index') }}">Go to home</a></p>
+</section>
+{% endblock %}

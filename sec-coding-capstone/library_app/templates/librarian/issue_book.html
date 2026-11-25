@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field, field, form_error %}
+{% block title %}Issue book{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Issue a book</h1>
+  {{ form_error(errors) }}
+  <form method="post" action="{{ url_for('librarian.issue_book') }}" novalidate>
+    {{ csrf_field() }}
+    {{ field('book_code', 'Book ID', form.book_code, errors=errors, hint='e.g. CS101', attrs='maxlength=8') }}
+    {{ field('roll_number', 'Student roll number', form.roll_number, errors=errors, hint='e.g. 2023CSE001', attrs='maxlength=12') }}
+    <button type="submit" class="btn btn-primary">Issue</button>
+  </form>
+  <p class="muted">Limit: {{ config.MAX_BOOKS_PER_STUDENT }} books per student, {{ config.LOAN_DAYS }} days per loan.</p>
+</section>
+{% endblock %}

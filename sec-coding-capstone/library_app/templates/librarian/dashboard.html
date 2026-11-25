@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Librarian dashboard{% endblock %}
+{% block content %}
+<h1>Librarian dashboard</h1>
+<div class="stats">
+  <div class="stat"><span>{{ stats.titles }}</span>Titles</div>
+  <div class="stat"><span>{{ stats.copies }}</span>Copies</div>
+  <div class="stat"><span>{{ stats.on_loan }}</span>On loan</div>
+  <div class="stat"><span>{{ stats.students }}</span>Students</div>
+  <div class="stat {% if stats.denied_24h %}warn{% endif %}"><span>{{ stats.denied_24h }}</span>Failed / denied (24h)</div>
+</div>
+<div class="grid">
+  <a class="card link-card" href="{{ url_for('librarian.add_book') }}"><h2>Add a book</h2><p>New title with validated ID and quantity.</p></a>
+  <a class="card link-card" href="{{ url_for('librarian.issue_book') }}"><h2>Issue a book</h2><p>Issue to a student by roll number.</p></a>
+  <a class="card link-card" href="{{ url_for('librarian.loans') }}"><h2>Return a book</h2><p>View active loans and mark returns.</p></a>
+  <a class="card link-card" href="{{ url_for('librarian.activity') }}"><h2>Activity log</h2><p>Audit trail of logins, denials and changes.</p></a>
+</div>
+{% endblock %}

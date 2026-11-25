@@ -1,0 +1,13 @@
+[project]
+name = "secure-library"
+version = "1.0.0"
+description = "Secure College Library Management System - ENSP 351 Secure Coding capstone (Project 7)"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]

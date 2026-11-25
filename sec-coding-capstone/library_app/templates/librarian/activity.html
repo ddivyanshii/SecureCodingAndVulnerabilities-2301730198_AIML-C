@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Activity log{% endblock %}
+{% block content %}
+<h1>Activity log</h1>
+<p class="muted">Latest 200 security-relevant events. Values are sanitised before storage and auto-escaped on display.</p>
+<table class="compact">
+  <thead><tr><th>Time (UTC)</th><th>Event</th><th>Outcome</th><th>User</th><th>IP</th><th>Details</th></tr></thead>
+  <tbody>
+  {% for e in events %}
+    <tr class="outcome-{{ e.outcome|lower }}">
+      <td>{{ e.ts }}</td><td><code>{{ e.event }}</code></td><td>{{ e.outcome }}</td>
+      <td>{{ e.username }}</td><td>{{ e.ip }}</td><td>{{ e.details }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

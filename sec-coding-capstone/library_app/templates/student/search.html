@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Search books{% endblock %}
+{% block content %}
+<h1>Search books</h1>
+<form method="get" class="inline-form">
+  <input type="search" name="q" value="{{ q }}" maxlength="50" placeholder="Search..." autofocus>
+  <select name="field">
+    <option value="title" {% if field == 'title' %}selected{% endif %}>Title</option>
+    <option value="author" {% if field == 'author' %}selected{% endif %}>Author</option>
+    <option value="code" {% if field == 'code' %}selected{% endif %}>Book ID</option>
+  </select>
+  <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+{% if error %}<div class="flash flash-error">{{ error }}</div>{% endif %}
+
+{% if results is not none %}
+  <p class="muted">{{ results|length }} result(s) for "{{ q }}"</p>
+  {% if results %}
+  <table>
+    <thead><tr><th>Book ID</th><th>Title</th><th>Author</th><th>Category</th><th>Available</th></tr></thead>
+    <tbody>
+    {% for b in results %}
+      <tr>
+        <td><code>{{ b.book_code }}</code></td><td>{{ b.title }}</td><td>{{ b.author }}</td>
+        <td>{{ b.category }}</td>
+        <td>{% if b.available %}<span class="pill ok">{{ b.available }} / {{ b.quantity }}</span>
+            {% else %}<span class="pill no">0 / {{ b.quantity }}</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+{% endif %}
+{% endblock %}

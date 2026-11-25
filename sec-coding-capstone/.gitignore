@@ -1,0 +1,16 @@
+.env
+instance/
+logs/
+*.db
+*.db-wal
+*.db-shm
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+reports/
+.scannerwork/

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field, field, form_error %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Student registration</h1>
+  {{ form_error(errors) }}
+  <form method="post" action="{{ url_for('auth.register') }}" novalidate>
+    {{ csrf_field() }}
+    {{ field('username', 'Username', form.username, errors=errors,
+             hint='4-20 chars: lowercase letters, digits, _', attrs='maxlength=20 autocomplete=username') }}
+    {{ field('full_name', 'Full name', form.full_name, errors=errors,
+             hint='Letters and spaces only', attrs='maxlength=60') }}
+    {{ field('email', 'College email', form.email, type='email', errors=errors, attrs='maxlength=254') }}
+    {{ field('roll_number', 'Roll number', form.roll_number, errors=errors,
+             hint='10-12 letters/digits, e.g. 2023CSE001', attrs='maxlength=12') }}
+    {{ field('password', 'Password', type='password', errors=errors,
+             hint='8-128 chars, at least one letter and one digit', attrs='maxlength=128 autocomplete=new-password') }}
+    {{ field('confirm_password', 'Confirm password', type='password', errors=errors,
+             attrs='maxlength=128 autocomplete=new-password') }}
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+  <p class="muted">Already registered? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Library{% endblock %} - Secure College Library</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('auth.index') }}">Secure College Library</a>
+  {% if g.user %}
+  <nav>
+    {% if g.user.is_librarian %}
+      <a href="{{ url_for('librarian.dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('librarian.books') }}">Books</a>
+      <a href="{{ url_for('librarian.add_book') }}">Add book</a>
+      <a href="{{ url_for('librarian.issue_book') }}">Issue</a>
+      <a href="{{ url_for('librarian.loans') }}">Loans / Return</a>
+      <a href="{{ url_for('librarian.activity') }}">Activity log</a>
+    {% else %}
+      <a href="{{ url_for('student.dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('student.my_books') }}">My books</a>
+    {% endif %}
+    <a href="{{ url_for('student.search') }}">Search</a>
+  </nav>
+  <form class="logout" method="post" action="{{ url_for('auth.logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <span class="who">{{ g.user.username }} <span class="role role-{{ g.user.role }}">{{ g.user.role }}</span></span>
+    <button type="submit" class="btn btn-small">Log out</button>
+  </form>
+  {% endif %}
+</header>
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">ENSP 351 - Secure Coding Capstone - Project 7</footer>
+</body>
+</html>
